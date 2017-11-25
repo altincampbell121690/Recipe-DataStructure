@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Recipe_DataStructure.cpp
-// Author      : 
+// Author      : Khang V. Tran
 // Version     :
 // Copyright   : Your copyright notice
 // Description : Hello World in C++, Ansi-style
