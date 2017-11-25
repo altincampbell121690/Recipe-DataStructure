@@ -33,9 +33,14 @@ void readAndStore(ifstream& fin)
 	string name, category, flavor, buf;
 	string ingredients = "";
 	string direction = "";
-	string time, difficulty;
+	unsigned time, difficulty;
+
+	int count = 0;
 	while (getline(fin, name))
 	{
+		count++;
+		cout << count << "." << endl;
+
 		cout << "Name: " << name << endl;
 
 		getline(fin, category);
@@ -51,10 +56,12 @@ void readAndStore(ifstream& fin)
 		} while(buf.find("#") == std::string::npos);
 		cout << "Ingredients: " << ingredients << endl;
 
-		getline(fin, time);
+		getline(fin, buf);
+		time = stoi(buf);
 		cout << "Time: " << time << endl;
 
-		getline(fin, difficulty);
+		getline(fin, buf);
+		difficulty = stoi(buf);
 		cout << "Difficulty: " << difficulty << endl;
 
 		do
