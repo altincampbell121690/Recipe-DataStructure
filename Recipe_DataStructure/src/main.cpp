@@ -11,14 +11,15 @@
 # include <string>
 using namespace std;
 
-#include "Recipe.h"
+# include "Recipe.h"
+# include "BST.h"
 
-void readAndStore(ifstream& fin);
+void readAndStore(ifstream& fin, BST<Recipe>& bst);
 // This function read in data from the text file
 // and create Recipe object
 
 int main() {
-
+	BST<Recipe> bst;
 
 	// open database and check
 	ifstream fin;
@@ -29,14 +30,14 @@ int main() {
 		exit(-1);
 	}
 
-	readAndStore(fin);
-
+	readAndStore(fin, bst);
+	bst.inOrderPrint(cout);
 	// close the file openning
 	fin.close();
 	return 0;
 }
 
-void readAndStore(ifstream& fin)
+void readAndStore(ifstream& fin, BST<Recipe>& bst)
 {
 	string name, category, flavor, buf;
 	string ingredients = "";
@@ -47,7 +48,7 @@ void readAndStore(ifstream& fin)
 	while (getline(fin, name))
 	{
 		count++;
-		cout << count << "." << endl;
+		//cout << count << "." << endl;
 
 		getline(fin, category);
 		getline(fin, flavor);
@@ -77,7 +78,9 @@ void readAndStore(ifstream& fin)
 
 
 		Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
-		cout << recipe << endl;
+		//cout << recipe << endl;
+
+		bst.insert(recipe);
 
 		// reset Ingredients and Direction for the next recipe to be read in
 		ingredients = "";
