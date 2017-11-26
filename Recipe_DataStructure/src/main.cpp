@@ -11,9 +11,16 @@
 # include <string>
 using namespace std;
 
+#include "Recipe.h"
+
 void readAndStore(ifstream& fin);
+// This function read in data from the text file
+// and create Recipe object
 
 int main() {
+
+
+	// open database and check
 	ifstream fin;
 	fin.open("database.txt");
 	if (fin.fail())
@@ -24,6 +31,7 @@ int main() {
 
 	readAndStore(fin);
 
+	// close the file openning
 	fin.close();
 	return 0;
 }
@@ -41,39 +49,37 @@ void readAndStore(ifstream& fin)
 		count++;
 		cout << count << "." << endl;
 
-		cout << "Name: " << name << endl;
-
 		getline(fin, category);
-		cout << "Category: " << category << endl;
-
 		getline(fin, flavor);
-		cout << "Flavor: " << flavor << endl;
 
+		// read and concatenate ingredients until hitting a #
 		do
 		{
 			getline(fin, buf);
 			if (buf.find("#") == std::string::npos) ingredients += buf;
 		} while(buf.find("#") == std::string::npos);
-		cout << "Ingredients: " << ingredients << endl;
 
 		getline(fin, buf);
 		time = stoi(buf);
-		cout << "Time: " << time << endl;
 
 		getline(fin, buf);
 		difficulty = stoi(buf);
-		cout << "Difficulty: " << difficulty << endl;
 
+		// read and concatenate to direction until hitting a #
 		do
 		{
 			getline(fin, buf);
 			if (buf.find("#") == std::string::npos) direction += buf;
 		} while(buf.find("#") == std::string::npos);
-		cout << "Direction: " << direction << endl;
 
+		// get the blankspace
 		getline(fin, buf);
-		cout << buf << endl;
 
+
+		Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
+		cout << recipe << endl;
+
+		// reset Ingredients and Direction for the next recipe to be read in
 		ingredients = "";
 		direction = "";
 	}
