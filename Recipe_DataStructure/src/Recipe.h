@@ -10,6 +10,8 @@
 
 # include <string>
 # include <ostream>
+#include <algorithm>
+#include <vector>
 using namespace std;
 
 class Recipe {
