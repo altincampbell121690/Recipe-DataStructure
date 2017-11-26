@@ -87,8 +87,6 @@ void readAndStore(ifstream& fin, BST<Recipe>& bst)
 		direction = "";
 	}
 
-
-
 }
 
 
