@@ -25,6 +25,10 @@ private:
 	unsigned difficulty;
 	string direction;
 
+	// the string vector that will store all the words
+	// from all fields of the object that are dimmed to be key words
+	vector<string> keys;
+
 public:
 	/**Constructors**/
 	Recipe();
@@ -38,6 +42,7 @@ public:
 	unsigned get_difficulty();
 	string get_ingredients();
 	string get_direction();
+	vector<string> get_keys();
 
 	/**Manipulation Procedures*/
 	void set_name(string n);
@@ -47,6 +52,7 @@ public:
 	void set_difficulty(unsigned d);
 	void set_ingredients(string i);
 	void set_direction(string dir);
+	void set_keys(vector<string> k);
 
 
 	/**Additional Functions*/
@@ -76,6 +82,9 @@ public:
 	//alphabetically by title and secondarily by author if the two
 	//books contain the same title
 	//returns false if the two books are the same
+
+	void printKeys();
+	// print all the keys of the object
 };
 
 

@@ -56,6 +56,10 @@ string Recipe::get_direction() {
 	return direction;
 }
 
+vector<string> Recipe::get_keys() {
+	return keys;
+}
+
 /**Manipulation Procedures**/
 
 void Recipe::set_name(string n) {
@@ -86,6 +90,9 @@ void Recipe::set_direction(string dir) {
 	direction = dir;
 }
 
+void Recipe::set_keys(vector<string> k) {
+	keys = k;
+}
 
 /**Additional Functions*/
 

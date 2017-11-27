@@ -9,23 +9,38 @@
 # include <iostream>
 # include <fstream>
 # include <string>
-#include <algorithm>
-#include <vector>
+# include <algorithm>
+# include <vector>
+# include <sstream>
 
 using namespace std;
 
 # include "Recipe.h"
 # include "BST.h"
 
-void readAndStore(ifstream& fin, BST<Recipe>& bst);
+void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst);
 // This function read in data from the text file
 // and create Recipe object
+void readAndAppend(ifstream& fin, string& str);
+// Read in a file and append every single word
+// separated by a space into a string
+void getKeysFromString(string field, string nonKeys, vector<string>& keys);
+
+void setKeysForObject(Recipe& recipe, string& nonKeys);
+
+void printStringVector(ostream& out, vector<string> v);
+// print out a string vector
+// all element are separated with a space
+
+/*
 void	 readAndPushBackVector(ifstream& fin, vector<string>& v);
 // read in data from a text file and store it in a vector
 // this function is meant for appending Non-Key-Word vector
 void printStringVector(ostream& out, vector<string>& v);
 // print out a string vector
 // all element are separated with a space
+*/
+
 
 int main() {
 	BST<Recipe> bst;
@@ -47,15 +62,28 @@ int main() {
 		exit(-1);
 	}
 
+	string nonKeys = "";
+	readAndAppend(fin2, nonKeys);
+	cout << (nonKeys) << endl;;
+	cout << endl << "**************************************************************" << endl;
+
+/*
 	vector<string> nonKeyWords;
 	readAndPushBackVector(fin2, nonKeyWords);
 	printStringVector(cout, nonKeyWords);
 	cout << endl << "**************************************************************" << endl;
+*/
 
 
 
-	readAndStore(fin1, bst);
+
+	readAndStore(fin1, nonKeys, bst);
 	bst.inOrderPrint(cout);
+
+
+
+
+
 
 	// close the file openning
 	fin1.close();
@@ -67,12 +95,13 @@ int main() {
 
 
 
-void readAndStore(ifstream& fin, BST<Recipe>& bst)
+void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst)
 {
 	string name, category, flavor, buf;
 	string ingredients = "";
 	string direction = "";
 	unsigned time, difficulty;
+	vector<string> keys;
 
 	int count = 0;
 	while (getline(fin, name))
@@ -106,9 +135,19 @@ void readAndStore(ifstream& fin, BST<Recipe>& bst)
 		// get the blankspace
 		getline(fin, buf);
 
-		// Insert into data structures
+		// create the keys vector
+
+
+		// Create the recipe object
 		Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
+		setKeysForObject(recipe, nonKeys);
+		printStringVector(cout, recipe.get_keys());
+		cout << endl << "**************************************************************" << endl;
+
+
+		// Insert the object into the
 		bst.insert(recipe);
+
 
 		// reset Ingredients and Direction for the next recipe to be read in
 		ingredients = "";
@@ -117,14 +156,40 @@ void readAndStore(ifstream& fin, BST<Recipe>& bst)
 
 }
 
-void	 readAndPushBackVector(ifstream& fin, vector<string>& v)
+void readAndAppend(ifstream& fin, string& str)
 {
 	string buf;
-	while (fin >> buf) v.push_back(buf);
+	while (fin >> buf) str += " " + buf;
 }
 
-void printStringVector(ostream& out, vector<string>& v)
+void getKeysFromString(string field, string nonKeys, vector<string>& keys)
+{
+	istringstream iss(field);
+	while(iss)
+	{
+		string word;
+		iss >> word;
+		if (nonKeys.find(word) == std::string::npos) keys.push_back(word);
+	}
+}
+
+void setKeysForObject(Recipe& recipe, string& nonKeys)
+{
+	vector<string> keys;
+	getKeysFromString(recipe.get_name(), nonKeys, keys);
+	getKeysFromString(recipe.get_category(), nonKeys, keys);
+	getKeysFromString(recipe.get_flavor(), nonKeys, keys);
+	getKeysFromString(recipe.get_ingredients(), nonKeys, keys);
+	getKeysFromString(recipe.get_direction(), nonKeys, keys);
+	recipe.set_keys(keys);
+	//printStringVector(cout, keys);
+}
+
+
+
+void printStringVector(ostream& out, vector<string> v)
 {
 	for (int i = 0; i < v.size(); i++) out << v[i] << " ";
 	out << endl;
 }
+
