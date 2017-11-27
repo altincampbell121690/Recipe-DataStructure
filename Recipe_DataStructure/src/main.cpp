@@ -24,22 +24,16 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst);
 void readAndAppend(ifstream& fin, string& str);
 // Read in a file and append every single word
 // separated by a space into a string
-void getKeysFromString(string field, string nonKeys, vector<string>& keys);
-
 void setKeysForObject(Recipe& recipe, string& nonKeys);
-
+// wrapper function:
+// call getKeysFromString for every field of the object
+void getKeysFromString(string field, string nonKeys, vector<string>& keys);
+// Helper function: from the field (type string), check if each word is in nonKey string
+// If not, process the word, and append it into keys vector of object
 void printStringVector(ostream& out, vector<string> v);
 // print out a string vector
 // all element are separated with a space
 
-/*
-void	 readAndPushBackVector(ifstream& fin, vector<string>& v);
-// read in data from a text file and store it in a vector
-// this function is meant for appending Non-Key-Word vector
-void printStringVector(ostream& out, vector<string>& v);
-// print out a string vector
-// all element are separated with a space
-*/
 
 
 int main() {
@@ -62,27 +56,16 @@ int main() {
 		exit(-1);
 	}
 
+
 	string nonKeys = "";
 	readAndAppend(fin2, nonKeys);
+	/*
 	cout << (nonKeys) << endl;;
 	cout << endl << "**************************************************************" << endl;
-
-/*
-	vector<string> nonKeyWords;
-	readAndPushBackVector(fin2, nonKeyWords);
-	printStringVector(cout, nonKeyWords);
-	cout << endl << "**************************************************************" << endl;
-*/
-
-
-
+	*/
 
 	readAndStore(fin1, nonKeys, bst);
 	bst.inOrderPrint(cout);
-
-
-
-
 
 
 	// close the file openning
@@ -140,7 +123,9 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst)
 
 		// Create the recipe object
 		Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
-		setKeysForObject(recipe, nonKeys);
+		setKeysForObject(recipe, nonKeys);   // the object key was empty until we setKeys
+
+
 		printStringVector(cout, recipe.get_keys());
 		cout << endl << "**************************************************************" << endl;
 
@@ -162,16 +147,6 @@ void readAndAppend(ifstream& fin, string& str)
 	while (fin >> buf) str += " " + buf;
 }
 
-void getKeysFromString(string field, string nonKeys, vector<string>& keys)
-{
-	istringstream iss(field);
-	while(iss)
-	{
-		string word;
-		iss >> word;
-		if (nonKeys.find(word) == std::string::npos) keys.push_back(word);
-	}
-}
 
 void setKeysForObject(Recipe& recipe, string& nonKeys)
 {
@@ -182,10 +157,35 @@ void setKeysForObject(Recipe& recipe, string& nonKeys)
 	getKeysFromString(recipe.get_ingredients(), nonKeys, keys);
 	getKeysFromString(recipe.get_direction(), nonKeys, keys);
 	recipe.set_keys(keys);
-	//printStringVector(cout, keys);
 }
 
+void getKeysFromString(string field, string nonKeys, vector<string>& keys)
+{
+	istringstream iss(field);
+	while(iss)
+	{
+		string word;
+		iss >> word;
+		if (nonKeys.find(word) == std::string::npos) keys.push_back(word);
+	}
 
+	// process the key in keys vector
+	for (int i = 0; i < keys.size(); i++)
+	{
+		for (int j = 0; j < keys[i].length(); j++)
+		{
+			if (isupper(keys[i][j])) keys[i][j] = tolower(keys[i][j]);
+		}
+		if (ispunct(keys[i][keys[i].length() - 1]))
+		{
+			keys[i] = keys[i].substr(0, keys[i].length() - 1);
+		}
+	}
+	// sort and make unique of the vector
+	sort( keys.begin(), keys.end() );
+	keys.erase( unique( keys.begin(), keys.end() ), keys.end());  // only take the unique keys
+
+}
 
 void printStringVector(ostream& out, vector<string> v)
 {
