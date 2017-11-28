@@ -36,10 +36,12 @@ int HashTable::countBucket(int index) const
 }
 
 int HashTable::VECsearch(string word)const{
+	vector<string>::iterator Iterator;
+	int i = 0;
 	int index = -1;
-	for (int i= 0; i != wordBank.end(); i++){
+	for (Iterator = wordBank.begin(); Iterator != wordBank.end(); Iterator++,i++){
 		if (wordBank[i] == word)
-			index = i;
+		index = i;
 	}
 	return index;
 }
@@ -105,11 +107,21 @@ void HashTable::printTable(ostream& out) const
 
 /*********************Manipulation Procedures**************/
 void HashTable::BSTinsert(Recipe r, int index){
-	for (int i = 0; i < SIZE; i++){
-	for(int j = 0; j < r.keyword.end())	{
-		if (keyword[j] =
-	}
-	}
+	///need to call something to ensure the keyword array has key words
+	vector<string>::iterator Iterator1;
+	vector<string>::iterator Iterator2;
+	int j = 0;
+	int k = 0;
+	//for (int i = 0; i < SIZE; i++){//goes through the hashBST index
+		for(Iterator1= r.keyword.begin(); Iterator1 != r.keyword.end(); Iterator1++, j++){
+			for(Iterator2= wordBank.begin(); Iterator2 != wordBank.end(); Iterator2++, k++){
+				if(k < SIZE){
+			       if (r.keyword[j] == wordBank[k])
+				       Table1[k].insert(r);
+				}
+
+		     }
+		}
 
 }
 
