@@ -59,10 +59,10 @@ int main() {
 
 	string nonKeys = "";
 	readAndAppend(fin2, nonKeys);
-	/*
+
 	cout << (nonKeys) << endl;;
 	cout << endl << "**************************************************************" << endl;
-	*/
+
 
 	readAndStore(fin1, nonKeys, bst);
 	bst.inOrderPrint(cout);
@@ -126,6 +126,8 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst)
 		setKeysForObject(recipe, nonKeys);   // the object key was empty until we setKeys
 
 
+
+
 		printStringVector(cout, recipe.get_keys());
 		cout << endl << "**************************************************************" << endl;
 
@@ -156,6 +158,7 @@ void setKeysForObject(Recipe& recipe, string& nonKeys)
 	getKeysFromString(recipe.get_flavor(), nonKeys, keys);
 	getKeysFromString(recipe.get_ingredients(), nonKeys, keys);
 	getKeysFromString(recipe.get_direction(), nonKeys, keys);
+
 	recipe.set_keys(keys);
 }
 
