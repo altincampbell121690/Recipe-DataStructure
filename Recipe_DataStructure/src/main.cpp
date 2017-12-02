@@ -47,7 +47,7 @@ int main() {
 		cout << "Fail to open input file" << endl;
 		exit(-1);
 	}
-
+	// open non essential word bank and check
 	ifstream fin2;
 	fin2.open("non_key_words.txt");
 	if (fin2.fail())
@@ -56,10 +56,9 @@ int main() {
 		exit(-1);
 	}
 
-
+	// read non essential word into a string
 	string nonKeys = "";
 	readAndAppend(fin2, nonKeys);
-
 	cout << (nonKeys) << endl;;
 	cout << endl << "**************************************************************" << endl;
 
