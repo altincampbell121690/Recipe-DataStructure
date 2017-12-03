@@ -17,6 +17,7 @@ using namespace std;
 
 # include "Recipe.h"
 # include "BST.h"
+//# include "HashTable.h"
 
 void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst);
 // This function read in data from the text file
@@ -33,7 +34,6 @@ void getKeysFromString(string field, string nonKeys, vector<string>& keys);
 void printStringVector(ostream& out, vector<string> v);
 // print out a string vector
 // all element are separated with a space
-
 
 
 int main() {
@@ -67,7 +67,7 @@ int main() {
 	bst.inOrderPrint(cout);
 
 
-	// close the file openning
+	// close the file opening
 	fin1.close();
 	fin2.close();
 	return 0;

@@ -1,7 +1,7 @@
 /*
  * HashTable.h
  *
- *  Created on: Dec 2, 2017
+ *  Created on: Dec 3, 2017
  *      Author: KVTran
  */
 
@@ -22,28 +22,38 @@ public:
 
 	/*Access function*/
 	int hash (string& key) const;
-    //returns the hash value for the given key
+    //returns the hash value for the given key for table 2
     //the hash value is the sum of
     //of the ASCII values of each char in the key
     //% the size the of the table
-    //Key for this table: name + category + flavor
+    //Key for this table: any string
 
-	int countBucket(int index) const;
+	int countBucket_table1(int index) const;
+    //counts the number of recipes at this index
+    //returns the count
+    //pre: 0<= index < SIZE
+	int countBucket_table2(int index) const;
     //counts the number of recipes at this index
     //returns the count
     //pre: 0<= index < SIZE
 
-	int search(Recipe recipe) const;
-    //Searches for recipe in the table
+
+	int search_table2(string key) const;
+    //Searches for the index of the key in the table2
     //returns the index at which recipe is located
     //returns -1 if recipe is not in the table
 
-	void insert(Recipe recipe) const;
+	int search_KeyVector(string& key) const;
+
+
+	/************* Manipulation Procedures *************/
+
+	void insert(Recipe recipe);
     //inserts a new recipe into the table
     //calls the hash function on the key to determine
     //the correct bucket
 
-	void remove(Recipe recipe) const;
+	void remove(Recipe recipe);
     //removes recipe from the table
     //calls the hash function on the key to determine
     //the correct bucket
@@ -51,7 +61,7 @@ public:
 
 
 	/*Additional Function*/
-	void printBucket(ostream& out, int index) const;
+	void printBucket_table1(ostream& out, int index) const;
     //Prints all the recipes at index according to inOrderPrint
     //pre: 0<= index < SIZE
     //Should print according to the following formula:
@@ -87,10 +97,16 @@ public:
 private:
 	static const int SIZE1 = 50;
 	static const int SIZE2 = 800;
+	static signed wordID;
+	static vector<string> keyVector;
 
 	BST<Recipe> Table1[SIZE1];
 	List<string> Table2[SIZE2];
 };
+
+
+signed HashTable::wordID = -1;
+
 
 
 
