@@ -105,7 +105,6 @@ private:
 };
 
 
-signed HashTable::wordID = -1;
 
 
 

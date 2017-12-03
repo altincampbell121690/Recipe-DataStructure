@@ -9,6 +9,7 @@
 
 # include "HashTable.h"
 
+signed HashTable::wordID = -1;
 vector<string> HashTable::keyVector;
 
 /************* Access Functions *************/

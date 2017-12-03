@@ -17,7 +17,7 @@ using namespace std;
 
 # include "Recipe.h"
 # include "BST.h"
-//# include "HashTable.h"
+# include "HashTable.h"
 
 void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst);
 // This function read in data from the text file
