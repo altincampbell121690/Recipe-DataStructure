@@ -376,17 +376,20 @@ void List<listdata>::insertStart(listdata data)
 template <class listdata>
 void List<listdata>::insertStop(listdata data)
 {
+
 	Node* N = new Node(data);
 	if (size == 0)
 	{
 		start = N;
 		stop = N;
+		cout << "check List: insertStop size = 0" << endl;
 	}
 	else
 	{
 		stop->linknext = N;
 		N->linkprevious = stop;
 		stop = N;
+		cout << "check List: insertStop size != 0" << endl;
 	}
 	size++;
 }
@@ -528,7 +531,8 @@ void List<listdata>::print() const
 	Node* temp = start;
 	while (temp != NULL)
 	{
-		cout << temp->data << endl;
+		//cout << temp->data << endl;
+		cout << temp->data << " ";
 		temp = temp->linknext;
 	}
 	cout << endl;

@@ -19,7 +19,7 @@ using namespace std;
 # include "BST.h"
 # include "HashTable.h"
 
-void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst);
+void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht);
 // This function read in data from the text file
 // and create Recipe object
 void readAndAppend(ifstream& fin, string& str);
@@ -38,6 +38,9 @@ void printStringVector(ostream& out, vector<string> v);
 
 int main() {
 	BST<Recipe> bst;
+	HashTable ht;
+
+	cout << ht.search_table2("crumbs") << endl;
 
 	// open database and check
 	ifstream fin1;
@@ -59,17 +62,18 @@ int main() {
 	// read non essential word into a string
 	string nonKeys = "";
 	readAndAppend(fin2, nonKeys);
-	cout << (nonKeys) << endl;;
-	cout << endl << "**************************************************************" << endl;
+	//cout << (nonKeys) << endl;;
+	//cout << endl << "**************************************************************" << endl;
 
 
-	readAndStore(fin1, nonKeys, bst);
-	bst.inOrderPrint(cout);
+	readAndStore(fin1, nonKeys, bst, ht);
+	//bst.inOrderPrint(cout);
 
 
 	// close the file opening
 	fin1.close();
 	fin2.close();
+	cout << "main.cpp ends" << endl;
 	return 0;
 }
 
@@ -77,7 +81,7 @@ int main() {
 
 
 
-void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst)
+void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht)
 {
 	string name, category, flavor, buf;
 	string ingredients = "";
@@ -133,6 +137,7 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst)
 
 		// Insert the object into the
 		bst.insert(recipe);
+		ht.insert(recipe);
 
 
 		// reset Ingredients and Direction for the next recipe to be read in

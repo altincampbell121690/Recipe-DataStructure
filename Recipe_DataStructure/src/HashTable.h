@@ -95,7 +95,7 @@ public:
     //<new line><new line><new line>
 
 private:
-	static const int SIZE1 = 50;
+	static const int SIZE1 = 1000;
 	static const int SIZE2 = 800;
 	static signed wordID;
 	static vector<string> keyVector;
