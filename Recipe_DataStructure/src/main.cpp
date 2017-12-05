@@ -8,18 +8,25 @@
 
 # include <iostream>
 # include <fstream>
-# include <string>
+
 # include <algorithm>
 # include <vector>
 # include <sstream>
+#include <stdlib.h>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
 # include "Recipe.h"
 # include "BST.h"
-# include "HashTable.h"
+#include "HashTable.h"
+#include "WordID.h"
 
-void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht);
+void idCreator(Recipe&, HashTable&);
+
+void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
+		HashTable& ht);
 // This function read in data from the text file
 // and create Recipe object
 void readAndAppend(ifstream& fin, string& str);
@@ -36,53 +43,59 @@ void printStringVector(ostream& out, vector<string> v);
 // all element are separated with a space
 
 
-int main() {
-	BST<Recipe> bst;
-	HashTable ht;
 
-	cout << ht.search_table2("crumbs") << endl;
+int main() {
+
+	HashTable idTable;
+	BST<Recipe> bst;
 
 	// open database and check
 	ifstream fin1;
 	fin1.open("database.txt");
-	if (fin1.fail())
-	{
+	if (fin1.fail()) {
 		cout << "Fail to open input file" << endl;
 		exit(-1);
 	}
-	// open non essential word bank and check
+
 	ifstream fin2;
 	fin2.open("non_key_words.txt");
-	if (fin2.fail())
-	{
+	if (fin2.fail()) {
 		cout << "Fail to open non_key_words file" << endl;
 		exit(-1);
 	}
 
-	// read non essential word into a string
 	string nonKeys = "";
 	readAndAppend(fin2, nonKeys);
+
 	//cout << (nonKeys) << endl;;
 	//cout << endl << "**************************************************************" << endl;
 
-
-	readAndStore(fin1, nonKeys, bst, ht);
+	readAndStore(fin1, nonKeys, bst, idTable);
 	//bst.inOrderPrint(cout);
+	//idTable.printTable(cout);
+	//idTable.printTableID(cout);
+
+	idTable.printBucket(cout, 54);
 
 
-	// close the file opening
+	// close the file openning
 	fin1.close();
 	fin2.close();
-	cout << "main.cpp ends" << endl;
 	return 0;
+
 }
 
+void idCreator(Recipe& recipe, HashTable& hashTable1) {
+	wordID one;
+	for (unsigned int i = 0; i < recipe.get_keys().size(); i++) {
+		one.set_Word(recipe.get_keys()[i]);
+		hashTable1.IDinsert(one);
+	}
 
+}
 
-
-
-void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht)
-{
+void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
+		HashTable& idHT) {
 	string name, category, flavor, buf;
 	string ingredients = "";
 	string direction = "";
@@ -90,8 +103,7 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht
 	vector<string> keys;
 
 	int count = 0;
-	while (getline(fin, name))
-	{
+	while (getline(fin, name)) {
 		count++;
 		//cout << count << "." << endl;
 
@@ -99,11 +111,11 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht
 		getline(fin, flavor);
 
 		// read and concatenate ingredients until hitting a #
-		do
-		{
+		do {
 			getline(fin, buf);
-			if (buf.find("#") == std::string::npos) ingredients += buf;
-		} while(buf.find("#") == std::string::npos);
+			if (buf.find("#") == string::npos)
+				ingredients += buf;
+		} while (buf.find("#") == string::npos);
 
 		getline(fin, buf);
 		time = stoi(buf);
@@ -112,33 +124,31 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht
 		difficulty = stoi(buf);
 
 		// read and concatenate to direction until hitting a #
-		do
-		{
+		do {
 			getline(fin, buf);
-			if (buf.find("#") == std::string::npos) direction += buf;
-		} while(buf.find("#") == std::string::npos);
+			if (buf.find("#") == string::npos)
+				direction += buf;
+		} while (buf.find("#") == string::npos);
 
 		// get the blankspace
 		getline(fin, buf);
 
 		// create the keys vector
 
-
 		// Create the recipe object
-		Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
-		setKeysForObject(recipe, nonKeys);   // the object key was empty until we setKeys
+		Recipe recipe(name, category, flavor, ingredients, time, difficulty,
+				direction);
+		setKeysForObject(recipe, nonKeys); // the object key was empty until we setKeys
 
-
-
-
-		printStringVector(cout, recipe.get_keys());
-		cout << endl << "**************************************************************" << endl;
-
+		//printStringVector(cout, recipe.get_keys());
+		//cout << endl
+		//<< "**************************************************************"
+		//<< endl;
 
 		// Insert the object into the
 		bst.insert(recipe);
-		ht.insert(recipe);
-
+		idCreator(recipe, idHT);
+		idHT.BSTinsert(recipe);
 
 		// reset Ingredients and Direction for the next recipe to be read in
 		ingredients = "";
@@ -147,56 +157,50 @@ void readAndStore(ifstream& fin, string& nonKeys,BST<Recipe>& bst, HashTable& ht
 
 }
 
-void readAndAppend(ifstream& fin, string& str)
-{
+void readAndAppend(ifstream& fin, string& str) {
 	string buf;
-	while (fin >> buf) str += " " + buf;
+	while (fin >> buf)
+		str += " " + buf;
 }
 
-
-void setKeysForObject(Recipe& recipe, string& nonKeys)
-{
+void setKeysForObject(Recipe& recipe, string& nonKeys) {
 	vector<string> keys;
 	getKeysFromString(recipe.get_name(), nonKeys, keys);
 	getKeysFromString(recipe.get_category(), nonKeys, keys);
 	getKeysFromString(recipe.get_flavor(), nonKeys, keys);
 	getKeysFromString(recipe.get_ingredients(), nonKeys, keys);
 	getKeysFromString(recipe.get_direction(), nonKeys, keys);
-
 	recipe.set_keys(keys);
 }
 
-void getKeysFromString(string field, string nonKeys, vector<string>& keys)
-{
+void getKeysFromString(string field, string nonKeys, vector<string>& keys) {
 	istringstream iss(field);
-	while(iss)
-	{
+	while (iss) {
 		string word;
 		iss >> word;
-		if (nonKeys.find(word) == std::string::npos) keys.push_back(word);
+		if (nonKeys.find(word) == std::string::npos)
+			keys.push_back(word);
 	}
 
 	// process the key in keys vector
-	for (int i = 0; i < keys.size(); i++)
-	{
-		for (int j = 0; j < keys[i].length(); j++)
-		{
-			if (isupper(keys[i][j])) keys[i][j] = tolower(keys[i][j]);
+	for (unsigned int i = 0; i < keys.size(); i++) {
+		for (unsigned int j = 0; j < keys[i].length(); j++) {
+			if (isupper(keys[i][j]))
+				keys[i][j] = tolower(keys[i][j]);
 		}
-		if (ispunct(keys[i][keys[i].length() - 1]))
-		{
+		if (ispunct(keys[i][keys[i].length() - 1])) {
 			keys[i] = keys[i].substr(0, keys[i].length() - 1);
 		}
 	}
 	// sort and make unique of the vector
-	sort( keys.begin(), keys.end() );
-	keys.erase( unique( keys.begin(), keys.end() ), keys.end());  // only take the unique keys
+	sort(keys.begin(), keys.end());
+	keys.erase(unique(keys.begin(), keys.end()), keys.end()); // only take the unique keys
 
 }
 
-void printStringVector(ostream& out, vector<string> v)
-{
-	for (int i = 0; i < v.size(); i++) out << v[i] << " ";
+void printStringVector(ostream& out, vector<string> v) {
+	for (unsigned int i = 0; i < v.size(); i++)
+		out << v[i] << " ";
 	out << endl;
 }
 

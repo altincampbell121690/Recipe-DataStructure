@@ -445,7 +445,7 @@ void List<listdata>::removeStop()
 template <class listdata>
 void List<listdata>::pointIterator()
 {
-	assert(!isEmpty());
+	//assert(!isEmpty());
 	iterator = start;
 }
 
