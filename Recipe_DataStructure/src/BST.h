@@ -62,6 +62,9 @@ private:
     //recursive helper function to search
     //returns whether the value is found in the tree
 
+    bool printNode_Helper(Node* root, bstdata data) const;
+
+
     bstdata minimum(Node* root) const;
     //recursive helper function to minimum
     //returns the minimum value in the tree
@@ -128,6 +131,7 @@ public:
     //returns whether the data is found in the tree
     //pre: !isEmpty()
 
+    bool printNode_Wrapper(bstdata data) const;
 
 
     /**manipulation procedures*/
@@ -268,6 +272,40 @@ bool BST<bstdata>::searchNode(Node* root, bstdata data) const
 		else return searchNode(root->rightchild, data);
 	}
 }
+
+template<typename bstdata>
+bool BST<bstdata>::printNode_Wrapper(bstdata data) const
+{
+	assert(!isEmpty());
+	if (root->data == data)
+	{
+		cout << root->data;
+		return true;
+	}
+	bool result = printNode_Helper(root, data);
+	return result;
+}
+
+template<typename bstdata>
+bool BST<bstdata>::printNode_Helper(Node* root, bstdata data) const
+{
+	if (root->data == data)
+	{
+		cout << root->data;
+		return true;
+	}
+	else if (root->data > data)
+	{
+		if (root->leftchild == NULL) return false;
+		else return printNode_Helper(root->leftchild, data);
+	}
+	else
+	{
+		if (root->rightchild == NULL) return false;
+		else return printNode_Helper(root->rightchild, data);
+	}
+}
+
 
 
 

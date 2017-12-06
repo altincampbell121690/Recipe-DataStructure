@@ -37,12 +37,21 @@ int main() {
 	//cout << endl << "**************************************************************" << endl;
 
 	readAndStore(fin1, nonKeys, bst, idTable);
-	//bst.inOrderPrint(cout);
+	bst.inOrderPrint(cout);
 	//idTable.printTable(cout);
 	//idTable.printTableID(cout);
 
-	idTable.printBucket(cout, 54);
+	//idTable.printBucket(cout, 54);
+	//string userInput = "cream";
+	//KeyWordSearch(userInput, idTable);
 
+	string nameTest = "Vanilla Pudding";
+	string categoryTest = "Pudding";
+	string flavorTest = "Vanilla";
+	Recipe recipeTest(nameTest, categoryTest, flavorTest, "", 1, 1, "");
+	cout << bst.search(recipeTest) << endl;;
+
+	PrimaryKeySearch(bst, nameTest, categoryTest, flavorTest);
 
 	// close the file openning
 	fin1.close();

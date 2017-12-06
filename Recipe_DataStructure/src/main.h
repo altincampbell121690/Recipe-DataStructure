@@ -22,8 +22,8 @@ using namespace std;
 
 # include "Recipe.h"
 # include "BST.h"
-#include "HashTable.h"
-#include "WordID.h"
+# include "HashTable.h"
+# include "WordID.h"
 
 
 void idCreator(Recipe&, HashTable&);
@@ -45,8 +45,13 @@ void printStringVector(ostream& out, vector<string> v);
 // print out a string vector
 // all element are separated with a space
 
+void KeyWordSearch(string userInput, HashTable& HT);
 
 
+
+void PrimaryKeySearch(BST<Recipe>& bst, string& name, string& category, string& flavor);
+// print the exact object from the separated BST
+// Should be used in option 3
 
 
 
@@ -173,6 +178,24 @@ void getKeysFromString(string field, string nonKeys, vector<string>& keys) {
 }
 
 
+void KeyWordSearch(string userInput, HashTable& HT)
+{
+	int index = HT.VECsearch(userInput);
+	HT.printBucket(cout,index);
+}
+
+void PrimaryKeySearch(BST<Recipe>& bst, string& name, string& category, string& flavor)
+{
+	Recipe recipe(name, category, flavor, "test", 1, 1, "");
+	if (!bst.search(recipe))
+	{
+		cout << "This recipe does not exist." << endl;
+	}
+	else
+	{
+		bst.printNode_Wrapper(recipe);
+	}
+}
 
 
 void printStringVector(ostream& out, vector<string> v) {

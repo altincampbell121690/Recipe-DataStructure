@@ -121,8 +121,7 @@ void HashTable::BSTinsert(Recipe r) {
 	vector<string>::iterator Iterator2;
 	unsigned int j;
 	unsigned int k;
-	cout << "num of key words in recipe vector: " << r.get_keys().size()
-			<< endl;
+	//cout << "num of key words in recipe vector: " << r.get_keys().size()<< endl;
 	for (j = 0; j < r.get_keys().size(); j++) {
 		if (j < r.get_keys().size())
 			for (k = 0; k < wordBank.size(); k++) {
@@ -159,8 +158,8 @@ int HashTable::IDsearch(wordID id) {
 	for (int i = 1; i <= listTable[index].getSize(); i++) {
 		if (id.get_Word() == listTable[index].getIterator().get_Word())
 			found = listTable[index].getIndex();
-		cout << id.get_Word() << " == "
-				<< listTable[index].getIterator().get_Word() << endl;
+		//cout << id.get_Word() << " == "
+				//<< listTable[index].getIterator().get_Word() << endl;
 		listTable[index].advanceIterator();
 	}
 

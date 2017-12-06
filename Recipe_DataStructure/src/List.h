@@ -382,14 +382,14 @@ void List<listdata>::insertStop(listdata data)
 	{
 		start = N;
 		stop = N;
-		cout << "check List: insertStop size = 0" << endl;
+		//cout << "check List: insertStop size = 0" << endl;
 	}
 	else
 	{
 		stop->linknext = N;
 		N->linkprevious = stop;
 		stop = N;
-		cout << "check List: insertStop size != 0" << endl;
+		//cout << "check List: insertStop size != 0" << endl;
 	}
 	size++;
 }
