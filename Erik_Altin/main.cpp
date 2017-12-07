@@ -1,12 +1,10 @@
-/*
- * main.h
- *
- *  Created on: Dec 5, 2017
- *      Author: KVTran
- */
-
-#ifndef MAIN_H_
-#define MAIN_H_
+//============================================================================
+// Name        : Recipe_DataStructure.cpp
+// Author      : Khang V. Tran
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
 
 # include <iostream>
 # include <fstream>
@@ -22,15 +20,13 @@ using namespace std;
 
 # include "Recipe.h"
 # include "BST.h"
-# include "HashTable.h"
-# include "WordID.h"
-
-
+#include "Hashtable.h"
+#include "WordID.h"
 
 void idCreator(Recipe&, HashTable&);
 
 void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
-		HashTable& ht, int& count);
+		HashTable& ht);
 // This function read in data from the text file
 // and create Recipe object
 void readAndAppend(ifstream& fin, string& str);
@@ -45,17 +41,43 @@ void getKeysFromString(string field, string nonKeys, vector<string>& keys);
 void printStringVector(ostream& out, vector<string> v);
 // print out a string vector
 // all element are separated with a space
+/*
+int main() {
 
-void KeyWordSearch(string userInput, HashTable& HT);
+	HashTable idTable;
+	BST<Recipe> bst;
 
+	// open database and check
+	ifstream fin1;
+	fin1.open("database.txt");
+	if (fin1.fail()) {
+		cout << "Fail to open input file" << endl;
+		exit(-1);
+	}
 
+	ifstream fin2;
+	fin2.open("non_key_words.txt");
+	if (fin2.fail()) {
+		cout << "Fail to open non_key_words file" << endl;
+		exit(-1);
+	}
 
-void PrimaryKeySearch(BST<Recipe>& bst, string& name, string& category, string& flavor);
-// print the exact object from the separated BST
-// Should be used in option 3
+	string nonKeys = "";
+	readAndAppend(fin2, nonKeys);
 
+	//cout << (nonKeys) << endl;;
+	//cout << endl << "**************************************************************" << endl;
 
+	readAndStore(fin1, nonKeys, bst, idTable);
+	//bst.inOrderPrint(cout);
+	idTable.printTable(cout);
 
+	// close the file openning
+	fin1.close();
+	fin2.close();
+	return 0;
+
+}
 
 void idCreator(Recipe& recipe, HashTable& hashTable1) {
 	wordID one;
@@ -67,14 +89,14 @@ void idCreator(Recipe& recipe, HashTable& hashTable1) {
 }
 
 void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
-		HashTable& idHT, int& count) {
+		HashTable& idHT) {
 	string name, category, flavor, buf;
 	string ingredients = "";
 	string direction = "";
 	unsigned time, difficulty;
 	vector<string> keys;
 
-	//int count = 0;
+	int count = 0;
 	while (getline(fin, name)) {
 		count++;
 		//cout << count << "." << endl;
@@ -129,16 +151,11 @@ void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
 
 }
 
-
-
-
 void readAndAppend(ifstream& fin, string& str) {
 	string buf;
 	while (fin >> buf)
 		str += " " + buf;
 }
-
-
 
 void setKeysForObject(Recipe& recipe, string& nonKeys) {
 	vector<string> keys;
@@ -149,9 +166,6 @@ void setKeysForObject(Recipe& recipe, string& nonKeys) {
 	getKeysFromString(recipe.get_direction(), nonKeys, keys);
 	recipe.set_keys(keys);
 }
-
-
-
 
 void getKeysFromString(string field, string nonKeys, vector<string>& keys) {
 	istringstream iss(field);
@@ -178,36 +192,9 @@ void getKeysFromString(string field, string nonKeys, vector<string>& keys) {
 
 }
 
-
-void KeyWordSearch(string userInput, HashTable& HT)
-{
-	int index = HT.VECsearch(userInput);
-	HT.printBucket(cout,index);
-}
-
-void PrimaryKeySearch(BST<Recipe>& bst, string& name, string& category, string& flavor)
-{
-	Recipe recipe(name, category, flavor, "test", 1, 1, "");
-	if (!bst.search(recipe))
-	{
-		cout << "This recipe does not exist." << endl;
-	}
-	else
-	{
-		bst.printNode_Wrapper(recipe);
-	}
-}
-
-
 void printStringVector(ostream& out, vector<string> v) {
 	for (unsigned int i = 0; i < v.size(); i++)
 		out << v[i] << " ";
 	out << endl;
 }
-
-
-
-
-
-
-#endif /* MAIN_H_ */
+*/

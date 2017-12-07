@@ -12,15 +12,13 @@
 #include <string>
 #include <iomanip>
 #include <vector>
+#include "Hashtable.h"
+#include "BST.h"
+#include "List.h"
+#include "wordID.h"
 #include <assert.h>
 
-#include "HashTable.h"
-
 using namespace std;
-
-int HashTable::Counter = 0;
-vector<string> HashTable::wordBank;
-
 
 /************************Access Functions*****************/
 int HashTable::hash(string key) const {
@@ -107,7 +105,7 @@ void HashTable::printTableID(ostream& out) const {
 	for (int i = 0; i < SIZE; i++) {
 		if (!listTable[i].isEmpty()) {
 			out << "Group: " << i + 1;
-			listTable[i].print();
+			listTable[i].print(out);
 			out << '+' << countBucket(i) - 1 << " or more similar keyword(s)\n"
 					<< endl;
 		}
@@ -121,7 +119,8 @@ void HashTable::BSTinsert(Recipe r) {
 	vector<string>::iterator Iterator2;
 	unsigned int j;
 	unsigned int k;
-	//cout << "num of key words in recipe vector: " << r.get_keys().size()<< endl;
+	cout << "num of key words in recipe vector: " << r.get_keys().size()
+			<< endl;
 	for (j = 0; j < r.get_keys().size(); j++) {
 		if (j < r.get_keys().size())
 			for (k = 0; k < wordBank.size(); k++) {
@@ -136,6 +135,8 @@ void HashTable::BSTinsert(Recipe r) {
 }
 
 void HashTable::BSTremove(Recipe r) {
+	vector<string>::iterator Iterator1;
+	vector<string>::iterator Iterator2;
 	unsigned int j;
 	unsigned int k;
 	//for (int i = 0; i < SIZE; i++){//goes through the hashBST index
@@ -156,8 +157,8 @@ int HashTable::IDsearch(wordID id) {
 	for (int i = 1; i <= listTable[index].getSize(); i++) {
 		if (id.get_Word() == listTable[index].getIterator().get_Word())
 			found = listTable[index].getIndex();
-		//cout << id.get_Word() << " == "
-				//<< listTable[index].getIterator().get_Word() << endl;
+		cout << id.get_Word() << " == "
+				<< listTable[index].getIterator().get_Word() << endl;
 		listTable[index].advanceIterator();
 	}
 
@@ -192,162 +193,5 @@ void HashTable::IDremove(wordID id) {
 	assert(listTable[hash(key)].linearSearch(id));
 	int index = listTable[i].linearSearch(id);
 	listTable[i].advanceToIndex(index);
-	listTable[i].removeIterator();
+	listTable[i].deleteIterator();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
- * HashTable.cpp
- *
- *  Created on: Dec 3, 2017
- *      Author: KVTran
-
-
-
-
-# include "HashTable.h"
-
-signed HashTable::wordID = -1;
-vector<string> HashTable::keyVector;
-
-************ Access Functions ************
-
-
-
-
-int HashTable::hash(string& key) const
-{
-	int sum = 0;
-	for (int i = 0; i < key.length(); i++) sum += (int) key[i];
-	cout << "Hash Value: " << sum % SIZE2 << endl;
-	return (sum % SIZE2);
-}
-
-int HashTable::countBucket_table1(int index) const
-{
-	assert(0 <= index && index < SIZE1);
-	return Table1[index].getSize();
-
-}
-
-int HashTable::countBucket_table2(int index) const
-{
-	assert(0 <= index && index < SIZE2);
-	return Table2[index].getSize();
-}
-
-// search the index of the key word in table 2
-int HashTable::search_table2(string key) const
-{
-	int index = hash(key);
-	cout << "search_table2 index: " << index << endl;
-	if (Table2[index].isEmpty())
-	{
-		cout << "search Table2: index empty" << endl;
-		return -1;
-	}
-	else if (Table2[index].linearSearch(key) == -1)
-	{
-		cout << "search Table2: Not found" << endl;
-		return -1;
-	}
-	else return index;
-}
-
-
-
-int HashTable::search_KeyVector(string& key) const
-{
-	for (int i = 0; i < keyVector.size(); i++)
-	{
-		if (keyVector[i] == key) return i;
-	}
-	return -1;
-}
-
-
-*********** Manipulation Procedures ***********
-
-void HashTable::insert(Recipe recipe)
-{
-	vector<string> keys = recipe.get_keys();
-	cout << "Number of Keys: "<< keys.size() << endl;
-	for (int i = 0; i < keys.size(); i++)
-	{
-		string key = keys[i];
-		cout << i << ": " << key << endl;
-		int wordID = search_KeyVector(key);
-		if (wordID != -1)
-		{
-			cout << key << ": word already exist" << endl;
-			Table1[wordID].insert(recipe);
-		}
-		else
-		{
-			cout << key << ": new word" << endl;
-			keyVector.push_back(key);
-			wordID = search_KeyVector(key);
-			Table1[wordID].insert(recipe);
-
-			int idTable2 = hash(key);
-			Table2[idTable2].insertStart(key);
-		}
-
-	}
-}
-
-
-
-
-void HashTable::insert(Recipe recipe)
-{
-	vector<string> keys = recipe.get_keys();
-	cout << "Number of Keys: "<< keys.size() << endl;
-	for (int i = 0; i < keys.size(); i++)
-	{
-		string key = keys[i];
-		cout << i << ": " << key << endl;
-		int index = search_table2(key);
-		cout << "index: " << index << endl;
-		if (index == -1)    // keyword not found in table 2
-		{
-			Table2[index].insertStop(key);
-			//Table2[index].print();
-			keyVector.push_back(key);
-			wordID++;                                // determine an index to use in table1
-			cout << "check in key not found. wordID: " << wordID << endl;
-			Table1[wordID].insert(recipe);           // insert word into table 2
-			cout << "check in key not found end" << endl;
-		}
-		else
-		{
-			cout << "check in key found" << endl;
-			int indexTable1 = search_KeyVector(key); // get the index for table 1
-			Table1[indexTable1].insert(recipe);      // insert recipe object into that index of table 1
-		}
-	}
-}
-
-
-
-
-*********** Additional Functions ***********
-
-void HashTable::printBucket_table1(ostream& out, int index) const
-{
-	assert(0 <= index && index <= SIZE1);
-	Table1[index].inOrderPrint(cout);
-}
-*/

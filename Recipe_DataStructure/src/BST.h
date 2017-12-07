@@ -64,6 +64,9 @@ private:
 
     bool printNode_Helper(Node* root, bstdata data) const;
 
+    bstdata getNode_Helper(Node* root, bstdata data) const;
+
+
 
     bstdata minimum(Node* root) const;
     //recursive helper function to minimum
@@ -132,6 +135,9 @@ public:
     //pre: !isEmpty()
 
     bool printNode_Wrapper(bstdata data) const;
+
+    bstdata getNode_Wrapper(bstdata data) const;
+
 
 
     /**manipulation procedures*/
@@ -306,7 +312,41 @@ bool BST<bstdata>::printNode_Helper(Node* root, bstdata data) const
 	}
 }
 
+/////////////////////
 
+
+template<typename bstdata>
+bstdata BST<bstdata>::getNode_Wrapper(bstdata data) const
+{
+	assert(search(data) != -1);
+	assert(!isEmpty());
+	if (root->data == data)
+	{
+		return root->data;
+	}
+	return getNode_Helper(root, data);
+}
+
+template<typename bstdata>
+bstdata BST<bstdata>::getNode_Helper(Node* root, bstdata data) const
+{
+	if (root->data == data)
+	{
+		return root->data;
+	}
+	else if (root->data > data)
+	{
+		return getNode_Helper(root->leftchild, data);
+	}
+	else
+	{
+		return getNode_Helper(root->rightchild, data);
+	}
+}
+
+
+
+//////////////////////
 
 
 
