@@ -66,8 +66,7 @@ void idCreator(Recipe& recipe, HashTable& hashTable1) {
 
 }
 
-void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
-		HashTable& idHT, int& count) {
+void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst, HashTable& idHT, int& count) {
 	string name, category, flavor, buf;
 	string ingredients = "";
 	string direction = "";

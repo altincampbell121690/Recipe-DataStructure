@@ -9,9 +9,14 @@
 
 # include "main.h"
 
-void displayOptions(BST<Recipe> & bst, HashTable & ht);
+void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys);
+
+void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys);
+
 void searchRecipes();
+
 void writeData();
+
 void statistics();
 
 
@@ -59,7 +64,7 @@ int main() {
 
 
 	// the real program to be run
-	displayOptions(bst, idTable);
+	displayOptions(idTable, bst, nonKeys);
 
 
 	// Aoother Testing Zone
@@ -105,7 +110,7 @@ int main() {
 
 }
 
-void displayOptions(BST<Recipe> & bst, HashTable & ht)
+void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 {
     int option = 0;
 
@@ -133,6 +138,8 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
 	    switch (option) {
 	    case 1:
 	    {
+	    		cin.ignore();
+	    		addObj(ht, bst, nonKeys);
 	    		break;
 	    }
 	    case 2:
@@ -149,6 +156,7 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
 	    		cout <<endl;
 	    		cout << "List of Recipes, sorted by Name, secondly by Category, and thirdly by Flavor:" << endl;
 	    		bst.inOrderPrint(cout);
+	    		cout << "End of sorting" << endl;
 	    		break;
 	    }
 	    case 5:
@@ -174,6 +182,64 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
 	}
 
 }
+
+
+void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
+{
+	string name, category, flavor, ingredients, direction, buf;
+	unsigned difficulty, time;
+
+	cout << "Enter the information needed or enter 0 to terminate the process!" << endl;;
+	cout << "Enter the name: ";
+	getline(cin, name);
+	if (name == "0") return;
+
+	cout << "Enter the category: ";
+	getline(cin, category);
+	if (category == "0") return;
+
+
+	cout << "Enter the flavor: ";
+	getline(cin, flavor);
+	if (flavor == "0") return;
+
+	cout << "Enter the ingredients, use commas as delimeter: ";
+	getline(cin, ingredients);
+	if (ingredients == "0") return;
+
+
+	cout << "Enter the time: ";
+	getline(cin, buf);
+	time = stod(buf);
+	if (time == 0) return;
+
+
+	cout << "Enter the difficulty (1 if unsure): ";
+	getline(cin, buf);
+	difficulty = stod(buf);
+	if (difficulty == 0) return;
+
+
+	cout << "Enter the direction: ";
+	getline(cin, direction);
+	if (direction == "0") return;
+
+	Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
+	setKeysForObject(recipe, nonKeys);
+	bst.insert(recipe);      // insert to the separated BST
+	idCreator(recipe, ht);
+	ht.BSTinsert(recipe);    // insert to the HashTable
+
+	cout << endl << "The recipe has been inserted to the catalouge:" << endl;
+	cout << recipe << endl;
+
+	//bst.printNode_Wrapper(recipe);   // tested: New eecipe has been inserted into the separated BST
+	// ht.printTable(cout);            // tested: new recipe has been inserted into the HT
+
+}
+
+
+
 
 // I apologize for the difference in indentation in advance.
 void searchRecipes() {

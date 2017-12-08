@@ -48,10 +48,7 @@ public:
 	//Searches for b in the table
 	//returns the index at which b is located
 	//returns -1 if b is not in the table
-	int BSTsearch(Recipe r) const;
-	//Searches for b in the table
-	//returns the index at which b is located
-	//returns -1 if b is not in the table
+
 	int IDsearch(wordID id);
 	//Searches for b in the table
 	//returns the index at which b is located
