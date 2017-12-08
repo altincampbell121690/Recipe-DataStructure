@@ -9,7 +9,7 @@
 
 # include "main.h"
 
-void displayOptions();
+void displayOptions(BST<Recipe> & bst, HashTable & ht);
 void searchRecipes();
 void writeData();
 void statistics();
@@ -43,15 +43,13 @@ int main() {
 
 	string nonKeys = "";
 	readAndAppend(fin2, nonKeys);
-
 	//cout << (nonKeys) << endl;;
 	//cout << endl << "**************************************************************" << endl;
-
 	readAndStore(fin1, nonKeys, bst, idTable, count);
+
+
 	//bst.inOrderPrint(cout);
-
-
-	//idTable.printTable(cout);
+	//idTable.printTable(cout)
 	//idTable.printTableID(cout);
 	//idTable.printBucket(cout, 54);
 	//string userInput = "cream";
@@ -61,29 +59,40 @@ int main() {
 
 
 	// the real program to be run
-	//displayOptions();
+	displayOptions(bst, idTable);
 
 
-
+	// Aoother Testing Zone
 	string nameTest = "Tapioca Pudding";
 	string categoryTest = "Pudding";
 	string flavorTest = "Vanilla";
 	Recipe recipeTest(nameTest, categoryTest, flavorTest, "", 1, 1, "");
-	setKeysForObject(recipeTest, nonKeys);
-    Recipe Test = bst.getNode_Wrapper(recipeTest);
+	//setKeysForObject(recipeTest, nonKeys);
+/*
+ 	// Test Zone for remove from HT
+	Recipe Test = bst.getNode_Wrapper(recipeTest);
+	cout << Test << endl;
+	cout << "#################################" << endl << endl;;
+	idTable.printBucket(cout, 55);
+	cout << "#################################" << endl << endl;;
 	idTable.BSTremove(Test);
+    idTable.printBucket(cout,55);
+	cout << "#################################" << endl<< endl;
+*/
 
+/*
+	// Test Zone for remove from the separated BST
+	cout << bst.search(recipeTest) << endl;   // print 1 if found
+	//PrimaryKeySearch(bst, nameTest, categoryTest, flavorTest); // search and print the exact object
+	bst.inOrderPrint(cout);
+	cout << "#################################" << endl<< endl;
+	bst.remove(recipeTest);
+	bst.inOrderPrint(cout);
+*/
 
-     idTable.printBucket(cout,55);
-
-	//cout << bst.search(recipeTest) << endl;
-	//PrimaryKeySearch(bst, nameTest, categoryTest, flavorTest);
-	//bst.remove(recipeTest);
-	//bst.inOrderPrint(cout);
 	//idTable.printTableID(cout);
-	cout << "#################################" << endl;
+	//cout << "#################################" << endl;
 	//idTable.BSTinsert(recipeTest);
-
 	//idTable.printTable(cout);
 	//idTable.BSTremove(recipeTest);
 	//idTable.printTable(cout);
@@ -96,8 +105,9 @@ int main() {
 
 }
 
-void displayOptions() {
-        int option = 0;
+void displayOptions(BST<Recipe> & bst, HashTable & ht)
+{
+    int option = 0;
 
 	while (option != 7) {
 	    cout << endl << "1. Add recipe" << endl;
@@ -114,38 +124,40 @@ void displayOptions() {
 	    switch (option) {
 	    case 1:
 	    {
-
+	    		break;
 	    }
 	    case 2:
 	    {
-
+	    		break;
 	    }
 	    case 3:
 	    {
-		searchRecipes();
-		break;
+	    		searchRecipes();
+			break;
 	    }
 	    case 4:
 	    {
-
-
+	    		cout <<endl;
+	    		cout << "List of Recipes, sorted by Name, secondly by Category, and Thirdly by Flavor:" << endl;
+	    		bst.inOrderPrint(cout);
+	    		break;
 	    }
 	    case 5:
 	    {
-		writeData();
-		break;
+	    		writeData();
+	    		break;
 	    }
 	    case 6:
 	    {
-
+	    		break;
 	    }
 	    case 7:
 	    {
-
+	    		break;
 	    }
 		return;
 		{
-
+			break;
 		}
 	    default:
 		cout << "Invalid option. Try again." << endl << endl;
