@@ -110,7 +110,8 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
     int option = 0;
 
 	while (option != 7) {
-	    cout << endl << "1. Add recipe" << endl;
+	    cout << endl;
+	    cout << "1. Add recipe" << endl;
 	    cout << "2. Delete recipe" << endl;
 	    cout << "3. Search recipe" << endl;
 	    cout << "4. Sort recipes" << endl;
@@ -119,6 +120,14 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
 	    cout << "7. Quit" << endl;
 	    cout << "\nEnter the option you wish to perform (1-7): ";
 	    cin >> option;
+
+	    if (cin.fail())
+	    {
+	    		cin.clear();
+	    		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	        	cout << endl << "Please enter numbers not letters" << endl;
+	    }
+
 
 	    //blank cases refer to the options provided above
 	    switch (option) {
@@ -138,7 +147,7 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
 	    case 4:
 	    {
 	    		cout <<endl;
-	    		cout << "List of Recipes, sorted by Name, secondly by Category, and Thirdly by Flavor:" << endl;
+	    		cout << "List of Recipes, sorted by Name, secondly by Category, and thirdly by Flavor:" << endl;
 	    		bst.inOrderPrint(cout);
 	    		break;
 	    }
@@ -160,7 +169,7 @@ void displayOptions(BST<Recipe> & bst, HashTable & ht)
 			break;
 		}
 	    default:
-		cout << "Invalid option. Try again." << endl << endl;
+		cout << "Invalid option. Try again with option from 1-7." << endl << endl;
 	    }
 	}
 
@@ -185,9 +194,18 @@ void searchRecipes() {
     //blank cases refer to the options for search
     switch (option) {
     case 1:
+    {
+    		break;
+    }
     case 2:
+    {
+    		break;
+    }
     case 3:
-	return;
+    {
+    		break;
+    		return;
+    }
     default:
 	cout << "Invalid option. Try again." << endl << endl;
     }
