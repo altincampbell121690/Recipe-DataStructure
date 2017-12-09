@@ -229,6 +229,7 @@ void BST<bstdata>::freeNode(Node* root)
 
 /************ manipulation procedures ************/
 
+// check this
 template<typename bstdata>
 void BST<bstdata>::insert(bstdata data)
 {
