@@ -16,7 +16,7 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys);
 void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 //void searchRecipes( );
 
-void writeData();
+void writeData(BST<Recipe>& bst);
 
 void statistics();
 
@@ -60,8 +60,6 @@ int main() {
 	//idTable.printBucket(cout, 54);
 	//string userInput = "cream";
 	//KeyWordSearch(userInput, idTable);
-
-
 
 
 	// the real program to be run
@@ -165,7 +163,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 5:
 	    {
-	    		writeData();
+	    		writeData(bst);
 	    		break;
 	    }
 	    case 6:
@@ -174,10 +172,9 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 7:
 	    {
-	    		break;
-	    }
-		return;
-		{
+	    		writeData(bst);
+	    		cout << "End of program. Hope you have fun using our catalogue" << endl;
+	    		return;
 			break;
 		}
 	    default:
@@ -301,8 +298,20 @@ void searchRecipes(HashTable& ht, BST<Recipe> & bst)
     cout << "End of search" << endl;
 }
 
-void writeData() {
+void writeData(BST<Recipe>& bst) {
     //TODO: What needs to happen here?
+    ofstream fout;
+    fout.open("Catalogue.txt");
+    if (fout.fail())
+    {
+    		cout << "Fail to open output file" << endl;
+    		exit(-1);
+    }
+
+	bst.inOrderPrint(fout);
+	cout << "data has been written to a text file" << endl;
+
+	fout.close();
 }
 
 void statistics() {
