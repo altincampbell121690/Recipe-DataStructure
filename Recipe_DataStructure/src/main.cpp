@@ -13,6 +13,8 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys);
 
 void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys);
 
+void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys);
+
 void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 //void searchRecipes( );
 
@@ -65,7 +67,7 @@ int main() {
 	// the real program to be run
 	displayOptions(idTable, bst, nonKeys);
 
-
+/*
 	// Aoother Testing Zone
 	string nameTest = "Tapioca Pudding";
 	string categoryTest = "Pudding";
@@ -73,14 +75,14 @@ int main() {
 	Recipe recipeTest(nameTest, categoryTest, flavorTest, "", 1, 1, "");
 	setKeysForObject(recipeTest, nonKeys);
 	//cout << bst.search(recipeTest) << endl;
-/*
+
  	// Test Zone for remove from HT
-	Recipe Test = bst.getNode_Wrapper(recipeTest);
+	Recipe Test = bst.getNode_Wrapper(recipeTest);   //
 	cout << Test << endl;
 	cout << "#################################" << endl << endl;;
 	idTable.printBucket(cout, 55);
 	cout << "#################################" << endl << endl;;
-	idTable.BSTremove(Test);
+	idTable.BSTremove(Test);                         //
     idTable.printBucket(cout,55);
 	cout << "#################################" << endl<< endl;
 */
@@ -144,7 +146,8 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 2:
 	    {
-
+	    		cin.ignore();
+	    		removeObj(ht, bst, nonKeys);
 	    		break;
 	    }
 	    case 3:
@@ -168,6 +171,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 6:
 	    {
+
 	    		break;
 	    }
 	    case 7:
@@ -240,10 +244,34 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
 
 	//bst.printNode_Wrapper(recipe);   // tested: New eecipe has been inserted into the separated BST
 	// ht.printTable(cout);            // tested: new recipe has been inserted into the HT
-
 }
 
+void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys)
+{
+	string name, category, flavor;
+	cout << "Enter the name: ";
+	getline(cin, name);
+	cout << "Enter the category: ";
+	getline(cin, category);
+	cout << "Enter the flavor: ";
+	getline(cin, flavor);
 
+	Recipe recipeDummy(name, category, flavor, "", 1, 1, "");
+	setKeysForObject(recipeDummy, nonKeys);
+
+	if (!bst.search(recipeDummy))
+	{
+		cout << endl << "Recipe not found in our catalogue" << endl;
+		return;
+	}
+
+	Recipe recipeToBeRemoved = bst.getNode_Wrapper(recipeDummy);  // get the real recipe bject
+	ht.BSTremove(recipeToBeRemoved);                              // remove from the HashTable
+
+	bst.remove(recipeDummy);    // remove from the separated BST
+
+	cout << endl << "The recipe has been removed" << endl;
+}
 
 
 void searchRecipes(HashTable& ht, BST<Recipe> & bst)
