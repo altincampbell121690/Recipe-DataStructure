@@ -181,6 +181,11 @@ void getKeysFromString(string field, string nonKeys, vector<string>& keys) {
 void KeyWordSearch(string userInput, HashTable& HT)
 {
 	int index = HT.VECsearch(userInput);
+	if (index == -1)
+	{
+		cout << "Found no recipes with this key word" << endl;
+		return;
+	}
 	HT.printBucket(cout,index);
 }
 

@@ -284,7 +284,11 @@ void searchRecipes(HashTable& ht, BST<Recipe> & bst)
     }
     case 2:
     {
-
+    		cin.ignore();
+    		string key;
+    		cout << "Enter a key word to search: ";
+    		getline(cin, key);
+    		KeyWordSearch(key, ht);
     		break;
     }
     case 3:
