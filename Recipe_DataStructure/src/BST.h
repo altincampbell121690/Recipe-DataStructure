@@ -242,14 +242,17 @@ void BST<bstdata>::insertNode(Node* root, bstdata data)
 	if (root->data == data) return;
 	else if (root->data > data)
 	{
+		//cout << root->data << " " << data << "go left" << endl;
 		if (root->leftchild == NULL) root->leftchild = new Node(data);
 		else insertNode(root->leftchild, data);
 	}
 	else
 	{
+		//cout << root->data << " " << data << "go right" << endl;
 		if (root->rightchild == NULL) root->rightchild = new Node(data);
 		else insertNode(root->rightchild, data);
 	}
+
 }
 
 

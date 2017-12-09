@@ -13,7 +13,8 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys);
 
 void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys);
 
-void searchRecipes();
+void searchRecipes(HashTable& ht, BST<Recipe> bst);
+//void searchRecipes( );
 
 void writeData();
 
@@ -24,7 +25,7 @@ void statistics();
 //TODO: Remove the testing stuff and move it to a test file. Or delete it entirely.
 int main() {
 
-	cout << "Welcome to the Recipe Catalouge!" << endl;
+	cout << "Welcome to the Recipe catalogue!" << endl;
 	int count = 0;
 
 	HashTable idTable;
@@ -148,7 +149,9 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 3:
 	    {
-	    		searchRecipes();
+	    		cin.ignore();
+	    		cout << "check here 1" << endl;
+	    		searchRecipes(ht, bst);
 			break;
 	    }
 	    case 4:
@@ -226,10 +229,14 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
 
 	Recipe recipe(name, category, flavor, ingredients, time, difficulty, direction);
 	setKeysForObject(recipe, nonKeys);
+	if (bst.search(recipe))
+	{
+		cout << endl << "This recipe is already in the catalouge. Return to menu" << endl;
+		return;
+	}
 	bst.insert(recipe);      // insert to the separated BST
 	idCreator(recipe, ht);
 	ht.BSTinsert(recipe);    // insert to the HashTable
-
 	cout << endl << "The recipe has been inserted to the catalouge:" << endl;
 	cout << recipe << endl;
 
@@ -240,16 +247,16 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
 
 
 
-
-// I apologize for the difference in indentation in advance.
-void searchRecipes() {
 /*
 #ifdef __APPLE__ //can't confirm that this works on windows machines
     system("clear"); // clears the console for readability. only works on unix.
 #endif
 */
+// I apologize for the difference in indentation in advance.
+void searchRecipes(HashTable& ht, BST<Recipe> bst)
+{
+	cout << "check here 2" << endl;
     int option;
-    
     cout << "Search" << endl << endl;
     cout << "1. Exact search" << endl;
     cout << "2. Keyword Search" << endl;
@@ -261,16 +268,35 @@ void searchRecipes() {
     switch (option) {
     case 1:
     {
+    		string name, category, flavor;
+    		cout << "Enter the name: ";
+    		getline(cin, name);
+    		cout << "Enter the category: ";
+    		getline(cin, category);
+    		cout << "Enter your flavor: ";
+    		getline(cin, flavor);
+
+    		Recipe recipe(name, flavor, category, "", 1, 1, "");
+    		if (!bst.search(recipe))
+    		{
+    			cout << "This recipe does not exist in our catalogue" << endl;
+    		}
+    		else
+    		{
+    			bst.printNode_Wrapper(recipe);
+    		}
     		break;
     }
     case 2:
     {
+
     		break;
     }
     case 3:
     {
-    		break;
+
     		return;
+    		break;
     }
     default:
 	cout << "Invalid option. Try again." << endl << endl;
