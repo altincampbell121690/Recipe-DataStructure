@@ -13,7 +13,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys);
 
 void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys);
 
-void searchRecipes(HashTable& ht, BST<Recipe> bst);
+void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 //void searchRecipes( );
 
 void writeData();
@@ -73,7 +73,8 @@ int main() {
 	string categoryTest = "Pudding";
 	string flavorTest = "Vanilla";
 	Recipe recipeTest(nameTest, categoryTest, flavorTest, "", 1, 1, "");
-	//setKeysForObject(recipeTest, nonKeys);
+	setKeysForObject(recipeTest, nonKeys);
+	//cout << bst.search(recipeTest) << endl;
 /*
  	// Test Zone for remove from HT
 	Recipe Test = bst.getNode_Wrapper(recipeTest);
@@ -145,12 +146,12 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 2:
 	    {
+
 	    		break;
 	    }
 	    case 3:
 	    {
 	    		cin.ignore();
-	    		cout << "check here 1" << endl;
 	    		searchRecipes(ht, bst);
 			break;
 	    }
@@ -159,7 +160,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    		cout <<endl;
 	    		cout << "List of Recipes, sorted by Name, secondly by Category, and thirdly by Flavor:" << endl;
 	    		bst.inOrderPrint(cout);
-	    		cout << "End of sorting" << endl;
+	    		cout << endl << "End of sorting" << endl;
 	    		break;
 	    }
 	    case 5:
@@ -247,27 +248,21 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
 
 
 
-/*
-#ifdef __APPLE__ //can't confirm that this works on windows machines
-    system("clear"); // clears the console for readability. only works on unix.
-#endif
-*/
-// I apologize for the difference in indentation in advance.
-void searchRecipes(HashTable& ht, BST<Recipe> bst)
+
+void searchRecipes(HashTable& ht, BST<Recipe> & bst)
 {
-	cout << "check here 2" << endl;
     int option;
     cout << "Search" << endl << endl;
-    cout << "1. Exact search" << endl;
+    cout << "1. Exact search with name, category, and flavor" << endl;
     cout << "2. Keyword Search" << endl;
     cout << "3. Quit" << endl;
     cout << "\nEnter the option you wish to perform (1-3): ";
     cin >> option;
-
     //blank cases refer to the options for search
     switch (option) {
     case 1:
     {
+    		cin.ignore();
     		string name, category, flavor;
     		cout << "Enter the name: ";
     		getline(cin, name);
@@ -276,7 +271,7 @@ void searchRecipes(HashTable& ht, BST<Recipe> bst)
     		cout << "Enter your flavor: ";
     		getline(cin, flavor);
 
-    		Recipe recipe(name, flavor, category, "", 1, 1, "");
+    		Recipe recipe(name, category, flavor, "", 1, 1, "");
     		if (!bst.search(recipe))
     		{
     			cout << "This recipe does not exist in our catalogue" << endl;
@@ -294,13 +289,12 @@ void searchRecipes(HashTable& ht, BST<Recipe> bst)
     }
     case 3:
     {
-
     		return;
-    		break;
     }
     default:
 	cout << "Invalid option. Try again." << endl << endl;
     }
+    cout << "End of search" << endl;
 }
 
 void writeData() {
