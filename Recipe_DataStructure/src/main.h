@@ -85,7 +85,7 @@ void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst, HashTable& i
 		do {
 			getline(fin, buf);
 			if (buf.find("#") == string::npos)
-				ingredients += buf;
+				ingredients += buf + "\n";
 		} while (buf.find("#") == string::npos);
 
 		getline(fin, buf);
