@@ -9,16 +9,18 @@
 
 # include "main.h"
 
-void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys);
+void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int& count);
 
-void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys);
+void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int& count);
+
+void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count);
 
 void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 //void searchRecipes( );
 
 void writeData(BST<Recipe>& bst);
 
-void statistics();
+void statistics(int& count);
 
 
 
@@ -52,7 +54,7 @@ int main() {
 	//cout << (nonKeys) << endl;;
 	//cout << endl << "**************************************************************" << endl;
 	readAndStore(fin1, nonKeys, bst, idTable, count);
-
+	//cout << count << endl;
 
 	//bst.inOrderPrint(cout);
 	//idTable.printTable(cout)
@@ -63,9 +65,9 @@ int main() {
 
 
 	// the real program to be run
-	displayOptions(idTable, bst, nonKeys);
+	displayOptions(idTable, bst, nonKeys, count);
 
-
+/*
 	// Aoother Testing Zone
 	string nameTest = "Tapioca Pudding";
 	string categoryTest = "Pudding";
@@ -73,14 +75,14 @@ int main() {
 	Recipe recipeTest(nameTest, categoryTest, flavorTest, "", 1, 1, "");
 	setKeysForObject(recipeTest, nonKeys);
 	//cout << bst.search(recipeTest) << endl;
-/*
+
  	// Test Zone for remove from HT
-	Recipe Test = bst.getNode_Wrapper(recipeTest);
+	Recipe Test = bst.getNode_Wrapper(recipeTest);   //
 	cout << Test << endl;
 	cout << "#################################" << endl << endl;;
 	idTable.printBucket(cout, 55);
 	cout << "#################################" << endl << endl;;
-	idTable.BSTremove(Test);
+	idTable.BSTremove(Test);                         //
     idTable.printBucket(cout,55);
 	cout << "#################################" << endl<< endl;
 */
@@ -110,7 +112,7 @@ int main() {
 
 }
 
-void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
+void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & count)
 {
     int option = 0;
 
@@ -139,12 +141,13 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    case 1:
 	    {
 	    		cin.ignore();
-	    		addObj(ht, bst, nonKeys);
+	    		addObj(ht, bst, nonKeys, count);
 	    		break;
 	    }
 	    case 2:
 	    {
-
+	    		cin.ignore();
+	    		removeObj(ht, bst, nonKeys, count);
 	    		break;
 	    }
 	    case 3:
@@ -168,12 +171,13 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 	    }
 	    case 6:
 	    {
+	    		statistics(count);
 	    		break;
 	    }
 	    case 7:
 	    {
 	    		writeData(bst);
-	    		cout << "End of program. Hope you have fun using our catalogue" << endl;
+	    		cout << "End of program. Hope you have fun browsing our catalogue" << endl;
 	    		return;
 			break;
 		}
@@ -185,7 +189,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys)
 }
 
 
-void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
+void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int & count)
 {
 	string name, category, flavor, ingredients, direction, buf;
 	unsigned difficulty, time;
@@ -235,15 +239,44 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys)
 	bst.insert(recipe);      // insert to the separated BST
 	idCreator(recipe, ht);
 	ht.BSTinsert(recipe);    // insert to the HashTable
+
+	count++;
+
 	cout << endl << "The recipe has been inserted to the catalouge:" << endl;
 	cout << recipe << endl;
 
 	//bst.printNode_Wrapper(recipe);   // tested: New eecipe has been inserted into the separated BST
 	// ht.printTable(cout);            // tested: new recipe has been inserted into the HT
-
 }
 
+void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count)
+{
+	string name, category, flavor;
+	cout << "Enter the name: ";
+	getline(cin, name);
+	cout << "Enter the category: ";
+	getline(cin, category);
+	cout << "Enter the flavor: ";
+	getline(cin, flavor);
 
+	Recipe recipeDummy(name, category, flavor, "", 1, 1, "");
+	setKeysForObject(recipeDummy, nonKeys);
+
+	if (!bst.search(recipeDummy))
+	{
+		cout << endl << "Recipe not found in our catalogue" << endl;
+		return;
+	}
+
+	Recipe recipeToBeRemoved = bst.getNode_Wrapper(recipeDummy);  // get the real recipe bject
+	ht.BSTremove(recipeToBeRemoved);                              // remove from the HashTable
+
+	bst.remove(recipeDummy);    // remove from the separated BST
+
+	count--;
+
+	cout << endl << "The recipe has been removed" << endl;
+}
 
 
 void searchRecipes(HashTable& ht, BST<Recipe> & bst)
@@ -285,6 +318,8 @@ void searchRecipes(HashTable& ht, BST<Recipe> & bst)
     		string key;
     		cout << "Enter a key word to search: ";
     		getline(cin, key);
+    		if (isupper(key[0])) key[0] = tolower(key[0]);
+    		cout <<  endl;
     		KeyWordSearch(key, ht);
     		break;
     }
@@ -314,8 +349,41 @@ void writeData(BST<Recipe>& bst) {
 	fout.close();
 }
 
-void statistics() {
+void statistics(int & count) {
     //TODO: provide the functions for collecting the statistics here.
+	int option;
+	cout << "Choose a statistics to dispay." << endl;
+	cout << "1. Total number of recipe" << endl;
+	cout << "2. Number of recipe for each keyword." << endl;
+	cout << "3. Average time" << endl;
+    cout << "3. Quit" << endl;
+    cout << endl << "Enter the option you wish to perform (1-3): ";
+    cin >> option;
+    switch (option)
+    {
+		case 1:
+		{
+			cout << "Total number of recipes: " << count << endl;
+			break;
+		}
+		case 2:
+		{
+			break;
+		}
+		case 3:
+		{
+			break;
+		}
+		case 4:
+		{
+			return;
+		}
+		default:
+		{
+			cout << "Invalid option. Try again." << endl << endl;
+		}
+    }
+
 }
 
 

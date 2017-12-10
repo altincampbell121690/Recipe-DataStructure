@@ -3,7 +3,7 @@
  * Recipe.cpp
  *
  *  Created on: Nov 25, 2017
- *      Author: KVTran
+ *      Author: KVTran, Erik Rakley, Altin Campbell
  */
 
 # include "WordID.h"
