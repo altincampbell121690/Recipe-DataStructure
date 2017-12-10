@@ -20,7 +20,8 @@ void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 
 void writeData(BST<Recipe>& bst);
 
-void statistics(int& count, HashTable& ht);
+void statistics(int& count, HashTable& ht, double& avgTime);
+
 
 
 
@@ -29,6 +30,7 @@ int main() {
 
 	cout << "Welcome to the Recipe catalogue!" << endl;
 	int count = 0;
+	double avgTime = 0;
 
 	HashTable idTable;
 	BST<Recipe> bst;
@@ -171,7 +173,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & co
 	    }
 	    case 6:
 	    {
-	    		statistics(count,ht);
+	    		statistics(count,ht, avgTime);
 	    		break;
 	    }
 	    case 7:
@@ -189,7 +191,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & co
 }
 
 
-void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int & count)
+void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int & count, double& avgTime)
 {
 	string name, category, flavor, ingredients, direction, buf;
 	unsigned difficulty, time;
@@ -239,7 +241,7 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int & count)
 	bst.insert(recipe);      // insert to the separated BST
 	idCreator(recipe, ht);
 	ht.BSTinsert(recipe);    // insert to the HashTable
-
+	avgTime += recipe.get_time();
 	count++;
 
 	cout << endl << "The recipe has been inserted to the catalouge:" << endl;
@@ -269,11 +271,13 @@ void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count)
 	}
 
 	Recipe recipeToBeRemoved = bst.getNode_Wrapper(recipeDummy);  // get the real recipe bject
-	ht.BSTremove(recipeToBeRemoved);                              // remove from the HashTable
+	ht.BSTremove(recipeToBeRemoved);  // remove from the HashTable
 
+	avgTime -= recipeToBeRemoved.get_time();
 	bst.remove(recipeDummy);    // remove from the separated BST
 
 	count--;
+
 
 	cout << endl << "The recipe has been removed" << endl;
 }
@@ -349,15 +353,15 @@ void writeData(BST<Recipe>& bst) {
 	fout.close();
 }
 
-void statistics(int & count, HashTable& ht) {
+void statistics(int & count, HashTable& ht, double& avgTime) {
     //TODO: provide the functions for collecting the statistics here.
 	int option;
 	cout << "Choose a statistics to display." << endl;
 	cout << "1. Total number of recipe" << endl;
 	cout << "2. Number of recipe for a specific category/flavor." << endl;
-	//cout << "3. Average time" << endl;
-	cout << "3. Most used keyword" << endl;
-    cout << "4. Quit" << endl;
+	cout << "3. Average time" << endl;
+	cout << "4. Most used keyword" << endl;
+    cout << "5. Quit" << endl;
     cout << endl << "Enter the option you wish to perform (1-3): ";
     cin >> option;
     switch (option)
@@ -375,13 +379,14 @@ void statistics(int & count, HashTable& ht) {
 		}
 		case 3:
 		{
-			cin.ignore();
-			mostUsed(cout,ht); //!!!!!! EXTRA STATISTIC IF WE WANT TO USE IT PRINTS MOST USED INGREDIENT / FLAVOR
-			break;
+			cout << "The average time to make a recipe in the catalog is: " << avgTime/count;
+
 		}
 		case 4:
 		{
-			return;
+			cin.ignore();
+			mostUsed(cout,ht); //!!!!!! EXTRA STATISTIC IF WE WANT TO USE IT PRINTS MOST USED INGREDIENT / FLAVOR
+			break;
 		}
 		default:
 		{

@@ -31,8 +31,9 @@ void idCreator(Recipe&, HashTable&);
 void keyWordStat(ostream& out, HashTable& ht);
 void mostUsed(ostream& out, HashTable& ht);
 
+
 void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
-		HashTable& ht, int& count);
+		HashTable& ht, int& count, double& avgTime);
 // This function read in data from the text file
 // and create Recipe object
 void readAndAppend(ifstream& fin, string& str);
@@ -68,7 +69,7 @@ void idCreator(Recipe& recipe, HashTable& hashTable1) {
 
 }
 
-void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst, HashTable& idHT, int& count) {
+void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst, HashTable& idHT, int& count, double& avgTime) {
 	string name, category, flavor, buf;
 	string ingredients = "";
 	string direction = "";
@@ -122,6 +123,7 @@ void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst, HashTable& i
 		bst.insert(recipe);
 		idCreator(recipe, idHT);
 		idHT.BSTinsert(recipe);
+		avgTime += recipe.get_time();
 
 		// reset Ingredients and Direction for the next recipe to be read in
 		ingredients = "";
@@ -226,6 +228,7 @@ void keyWordStat(ostream& out, HashTable& ht){
 
 void mostUsed(ostream& out, HashTable& ht){
 	int Size = 0, index = -1;
+
 	for (int i = 0; i < ht.getWordBankSIZE(); i++){
 		if (Size < ht.countBucket(i)){
 			Size = ht.countBucket(i);
@@ -237,3 +240,4 @@ void mostUsed(ostream& out, HashTable& ht){
 
 
 #endif /* MAIN_H_ */
+
