@@ -214,7 +214,7 @@ void printStringVector(ostream& out, vector<string> v) {
 
 void keyWordStat(ostream& out, HashTable& ht){
 	string keyWord;
-	cout << "Please enter an ingredient, flavor, or category \n";
+	cout << "Please enter an ingredient, flavor, or category: ";
 	getline(cin, keyWord);
 	int index = ht.VECsearch(keyWord);
 	if(index == -1)
@@ -232,7 +232,7 @@ void mostUsed(ostream& out, HashTable& ht){
 			index = i;
 		}
 	}
- out << ht.getWordBank(index) << " is the most used ingredient/flavor with " << Size << "associated recipes\n";
+ out << ht.getWordBank(index) << " is the most used keyword with " << Size << " associated recipes\n";
 }
 
 

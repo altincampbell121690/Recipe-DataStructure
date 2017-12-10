@@ -352,11 +352,12 @@ void writeData(BST<Recipe>& bst) {
 void statistics(int & count, HashTable& ht) {
     //TODO: provide the functions for collecting the statistics here.
 	int option;
-	cout << "Choose a statistics to dispay." << endl;
+	cout << "Choose a statistics to display." << endl;
 	cout << "1. Total number of recipe" << endl;
-	cout << "2. Number of recipe for a specific keyword." << endl;
-	cout << "3. Average time" << endl;
-    cout << "3. Quit" << endl;
+	cout << "2. Number of recipe for a specific category/flavor." << endl;
+	//cout << "3. Average time" << endl;
+	cout << "3. Most used keyword" << endl;
+    cout << "4. Quit" << endl;
     cout << endl << "Enter the option you wish to perform (1-3): ";
     cin >> option;
     switch (option)
@@ -368,16 +369,18 @@ void statistics(int & count, HashTable& ht) {
 		}
 		case 2:
 		{
+			cin.ignore();
 			keyWordStat(cout, ht);
 			break;
 		}
 		case 3:
 		{
+			cin.ignore();
+			mostUsed(cout,ht); //!!!!!! EXTRA STATISTIC IF WE WANT TO USE IT PRINTS MOST USED INGREDIENT / FLAVOR
 			break;
 		}
 		case 4:
 		{
-			//mostUsed(cout,ht); !!!!!! EXTRA STATISTIC IF WE WANT TO USE IT PRINTS MOST USED INGREDIENT / FLAVOR
 			return;
 		}
 		default:
