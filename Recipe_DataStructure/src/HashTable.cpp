@@ -117,8 +117,11 @@ void HashTable::printTableID(ostream& out) const {
 /*********************Manipulation Procedures**************/
 void HashTable::BSTinsert(Recipe r) {
 	///need to call something to ensure the keyword array has key words
-	vector<string>::iterator Iterator1;
-	vector<string>::iterator Iterator2;
+/***************************************
+string keyword = r.get_keys()[1];
+int index = VECsearch(keyword);
+if (bstTable[index].search(r)){
+****************************************8**/
 	unsigned int j;
 	unsigned int k;
 	//cout << "num of key words in recipe vector: " << r.get_keys().size()<< endl;
@@ -132,8 +135,15 @@ void HashTable::BSTinsert(Recipe r) {
 
 			}
 	}
-
+	//return true
 }
+/*******
+else{
+	cout << "this recipe exists already\n";
+   return false;
+   }
+ }
+*********/
 
 void HashTable::BSTremove(Recipe r) {
 	unsigned int j;
