@@ -28,6 +28,8 @@ using namespace std;
 
 
 void idCreator(Recipe&, HashTable&);
+void keyWordStat(ostream& out, HashTable& ht);
+void mostUsed(ostream& out, HashTable& ht);
 
 void readAndStore(ifstream& fin, string& nonKeys, BST<Recipe>& bst,
 		HashTable& ht, int& count);
@@ -210,8 +212,28 @@ void printStringVector(ostream& out, vector<string> v) {
 }
 
 
+void keyWordStat(ostream& out, HashTable& ht){
+	string keyWord;
+	cout << "Please enter an ingredient, flavor, or category \n";
+	getline(cin, keyWord);
+	int index = ht.VECsearch(keyWord);
+	if(index == -1)
+		out << "there are 0 recipes that fit this description \n";
+	else{
+		out << "there are " << ht.countBucket(index)<<" recipes that fit this description \n";
+	}
+}
 
-
+void mostUsed(ostream& out, HashTable& ht){
+	int Size = 0, index = -1;
+	for (int i = 0; i < ht.getWordBankSIZE(); i++){
+		if (Size < ht.countBucket(i)){
+			Size = ht.countBucket(i);
+			index = i;
+		}
+	}
+ out << ht.getWordBank(index) << " is the most used ingredient/flavor with " << Size << "associated recipes\n";
+}
 
 
 #endif /* MAIN_H_ */

@@ -44,7 +44,13 @@ int HashTable::VECsearch(string word) const {
 	}
 	return index;
 }
+int HashTable::getWordBankSIZE()const{
+	return wordBank.size();
+}
 
+string HashTable::getWordBank(int index)const{
+	return wordBank[index];
+}
 //search array for word
 //returns -1 if b is not in the table
 

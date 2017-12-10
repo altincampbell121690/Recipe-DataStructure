@@ -89,6 +89,8 @@ public:
 	//ISBN#: <isbn>
 	//followed by a blank line
 
+	int getWordBankSIZE()const;
+	string getWordBank(int index )const;
 	void printTable(ostream& out) const;
 	//Prints the first book at each index
 	//along with a count of the total books

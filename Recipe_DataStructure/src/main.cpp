@@ -20,7 +20,7 @@ void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 
 void writeData(BST<Recipe>& bst);
 
-void statistics(int& count);
+void statistics(int& count, HashTable& ht);
 
 
 
@@ -171,7 +171,7 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & co
 	    }
 	    case 6:
 	    {
-	    		statistics(count);
+	    		statistics(count,ht);
 	    		break;
 	    }
 	    case 7:
@@ -349,12 +349,12 @@ void writeData(BST<Recipe>& bst) {
 	fout.close();
 }
 
-void statistics(int & count) {
+void statistics(int & count, HashTable& ht) {
     //TODO: provide the functions for collecting the statistics here.
 	int option;
 	cout << "Choose a statistics to dispay." << endl;
 	cout << "1. Total number of recipe" << endl;
-	cout << "2. Number of recipe for each keyword." << endl;
+	cout << "2. Number of recipe for a specific keyword." << endl;
 	cout << "3. Average time" << endl;
     cout << "3. Quit" << endl;
     cout << endl << "Enter the option you wish to perform (1-3): ";
@@ -368,6 +368,7 @@ void statistics(int & count) {
 		}
 		case 2:
 		{
+			keyWordStat(cout, ht);
 			break;
 		}
 		case 3:
@@ -376,6 +377,7 @@ void statistics(int & count) {
 		}
 		case 4:
 		{
+			//mostUsed(cout,ht); !!!!!! EXTRA STATISTIC IF WE WANT TO USE IT PRINTS MOST USED INGREDIENT / FLAVOR
 			return;
 		}
 		default:
