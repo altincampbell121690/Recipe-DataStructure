@@ -213,13 +213,13 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int & count)
 	if (ingredients == "0") return;
 
 
-	cout << "Enter the time: ";
+	cout << "Enter the time (integers only): ";
 	getline(cin, buf);
 	time = stod(buf);
 	if (time == 0) return;
 
 
-	cout << "Enter the difficulty (1 if unsure): ";
+	cout << "Enter the difficulty (1-5, 1 if unsure): ";
 	getline(cin, buf);
 	difficulty = stod(buf);
 	if (difficulty == 0) return;
@@ -294,11 +294,11 @@ void searchRecipes(HashTable& ht, BST<Recipe> & bst)
     {
     		cin.ignore();
     		string name, category, flavor;
-    		cout << "Enter the name: ";
+    		cout << "Enter the name (with capitalized first letter): ";
     		getline(cin, name);
-    		cout << "Enter the category: ";
+    		cout << "Enter the category (with capitalized first letter): ";
     		getline(cin, category);
-    		cout << "Enter your flavor: ";
+    		cout << "Enter your flavor (with capitalized first letter): ";
     		getline(cin, flavor);
 
     		Recipe recipe(name, category, flavor, "", 1, 1, "");
