@@ -9,11 +9,11 @@
 
 # include "main.h"
 
-void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int& count);
+void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int& count, double& avgTime);
 
-void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int& count);
+void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int& count, double& avgTime);
 
-void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count);
+void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count, double& avgTime);
 
 void searchRecipes(HashTable& ht, BST<Recipe> & recipe);
 //void searchRecipes( );
@@ -55,7 +55,7 @@ int main() {
 	readAndAppend(fin2, nonKeys);
 	//cout << (nonKeys) << endl;;
 	//cout << endl << "**************************************************************" << endl;
-	readAndStore(fin1, nonKeys, bst, idTable, count);
+	readAndStore(fin1, nonKeys, bst, idTable, count, avgTime);
 	//cout << count << endl;
 
 	//bst.inOrderPrint(cout);
@@ -67,7 +67,7 @@ int main() {
 
 
 	// the real program to be run
-	displayOptions(idTable, bst, nonKeys, count);
+	displayOptions(idTable, bst, nonKeys, count, avgTime);
 
 /*
 	// Aoother Testing Zone
@@ -114,7 +114,7 @@ int main() {
 
 }
 
-void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & count)
+void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & count, double& avgTime)
 {
     int option = 0;
 
@@ -143,13 +143,13 @@ void displayOptions(HashTable & ht, BST<Recipe> & bst, string& nonKeys, int & co
 	    case 1:
 	    {
 	    		cin.ignore();
-	    		addObj(ht, bst, nonKeys, count);
+	    		addObj(ht, bst, nonKeys, count, avgTime);
 	    		break;
 	    }
 	    case 2:
 	    {
 	    		cin.ignore();
-	    		removeObj(ht, bst, nonKeys, count);
+	    		removeObj(ht, bst, nonKeys, count, avgTime);
 	    		break;
 	    }
 	    case 3:
@@ -251,7 +251,7 @@ void addObj(HashTable& ht, BST<Recipe>& bst, string& nonKeys, int & count, doubl
 	// ht.printTable(cout);            // tested: new recipe has been inserted into the HT
 }
 
-void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count)
+void removeObj(HashTable & ht, BST<Recipe> & bst, string & nonKeys, int& count, double& avgTime)
 {
 	string name, category, flavor;
 	cout << "Enter the name: ";
@@ -379,7 +379,8 @@ void statistics(int & count, HashTable& ht, double& avgTime) {
 		}
 		case 3:
 		{
-			cout << "The average time to make a recipe in the catalog is: " << avgTime/count;
+			cout << "The average time to make a recipe in the catalogue is: " << avgTime/count << " minutes";
+			break;
 
 		}
 		case 4:
